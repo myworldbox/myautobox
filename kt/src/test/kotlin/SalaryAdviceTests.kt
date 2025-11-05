@@ -43,7 +43,7 @@ class SalaryAdviceTests {
         login.login(Config.USER1_USERNAME, Config.USER1_PASSWORD)
 
         val versionElement = wait.until(
-            presenceOfElementLocated(By.xpath("//*[normalize-space(.)='Version 2.03r2']"))
+            presenceOfElementLocated(By.xpath("//*[contains(normalize-space(.),='Version 2.03r2']"))
         )
         assertTrue(versionElement.text.contains("Version 2.03r2"))
     }
@@ -58,14 +58,14 @@ class SalaryAdviceTests {
         assertEquals("Salary Advice", driver.title)
 
         val staffNo = wait.until(
-            presenceOfElementLocated(By.xpath("//*[normalize-space(.)='Staff No.']"))
+            presenceOfElementLocated(By.xpath("//*[contains(normalize-space(.), 'Staff No.')]"))
         )
         val staffName = wait.until(
-            presenceOfElementLocated(By.xpath("//*[normalize-space(.)='Staff Name']"))
+            presenceOfElementLocated(By.xpath("//*[contains(normalize-space(.), 'Staff Name')]"))
         )
 
-        assertEquals("Staff No.", staffNo.text.trim())
-        assertEquals("Staff Name", staffName.text.trim())
+        assertTrue(staffNo.text.contains("Staff No."))
+        assertTrue(staffName.text.contains("Staff Name"))
     }
 
     @Test

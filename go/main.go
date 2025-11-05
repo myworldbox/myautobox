@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	seleniumPath = `C:\Program Files\Google\chrome-win\chrome.exe`
+	seleniumPath = `..\chromedriver\chromedriver.exe`
 	port         = 9515
 	baseURL      = "https://apps.twghintranet.org/epdev/"
 )
@@ -25,7 +25,7 @@ func startWebDriver() (selenium.WebDriver, *selenium.Service, error) {
 	chromeCaps := map[string]interface{}{
 		"args": []string{
 			// Point to your Chrome user data directory
-			`--user-data-dir=C:\Users\VictorLeung\AppData\Local\Chromium\User Data`,
+			// `--user-data-dir=C:\Users\VictorLeung\AppData\Local\Chromium\User Data`,
 			// Pick a specific profile folder inside that directory
 			`--profile-directory=Default`,
 		},
