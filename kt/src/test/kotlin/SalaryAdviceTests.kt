@@ -4,7 +4,6 @@ import config.Config
 import org.junit.jupiter.api.*
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.support.ui.ExpectedConditions.*
 import org.openqa.selenium.support.ui.WebDriverWait
@@ -15,29 +14,21 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.assertFalse
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class SalaryAdviceTests {
     private lateinit var driver: WebDriver
     private lateinit var wait: WebDriverWait
 
-    @BeforeAll
+    @BeforeEach
     fun setup() {
         val options = org.openqa.selenium.chrome.ChromeOptions()
-        options.addArguments("--headless=new") // Use "--headless=new" for Chrome 109+
-        options.addArguments("--disable-gpu")
-        options.addArguments("--window-size=1920,1080")
+        options.addArguments("--headless=new", "--disable-gpu", "--window-size=1920,1080")
         driver = ChromeDriver(options)
         wait = WebDriverWait(driver, Duration.ofSeconds(10))
-    }
-
-    @BeforeEach
-    fun beforeEach() {
-        driver.manage().deleteAllCookies()
         driver.get(Config.BASE_URL)
     }
 
-    @AfterAll
+    @AfterEach
     fun teardown() {
         driver.quit()
     }
