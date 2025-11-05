@@ -38,7 +38,7 @@ def test_user1_check_salary_advice_list(driver):
     for post in page.get_posts():
         assert post.text.strip() != ""
 
-    assert "Notes" in driver.page_source
+    assert "The system stores electronic files of salary advice slips from January 2021." in driver.page_source
 
 def test_user1_check_first_contract(driver):
     login = LoginPage(driver)

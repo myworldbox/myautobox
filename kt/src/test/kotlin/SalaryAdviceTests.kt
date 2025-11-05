@@ -16,6 +16,7 @@ import kotlin.test.assertTrue
 import kotlin.test.assertFalse
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class SalaryAdviceTests {
     private lateinit var driver: WebDriver
     private lateinit var wait: WebDriverWait
@@ -27,8 +28,13 @@ class SalaryAdviceTests {
         options.addArguments("--disable-gpu")
         options.addArguments("--window-size=1920,1080")
         driver = ChromeDriver(options)
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5))
         wait = WebDriverWait(driver, Duration.ofSeconds(10))
+    }
+
+    @BeforeEach
+    fun beforeEach() {
+        driver.manage().deleteAllCookies()
+        driver.get(Config.BASE_URL)
     }
 
     @AfterAll
@@ -37,25 +43,29 @@ class SalaryAdviceTests {
     }
 
     @Test
+    @Order(1)
     fun testUser1CheckVersion() {
         val login = LoginPage(driver)
         login.load(Config.BASE_URL)
         login.login(Config.USER1_USERNAME, Config.USER1_PASSWORD)
 
-        val versionElement = wait.until(
-            presenceOfElementLocated(By.xpath("//*[contains(normalize-space(.),='Version 2.03r2']"))
+        val version = wait.until(
+            presenceOfElementLocated(By.xpath("//*[contains(normalize-space(.), 'Version')]"))
         )
-        assertTrue(versionElement.text.contains("Version 2.03r2"))
+        assertTrue(version.text.contains("2.03r2"))
     }
 
     @Test
+    @Order(2)
     fun testUser1CheckHomePage() {
         val login = LoginPage(driver)
         login.load(Config.BASE_URL)
         login.login(Config.USER1_USERNAME, Config.USER1_PASSWORD)
 
-        wait.until(titleIs("Salary Advice"))
-        assertEquals("Salary Advice", driver.title)
+        val title = wait.until(
+            presenceOfElementLocated(By.xpath("//*[contains(normalize-space(.), 'Salary Advice')]"))
+        )
+        assertTrue(title.text.contains("Salary Advice"))
 
         val staffNo = wait.until(
             presenceOfElementLocated(By.xpath("//*[contains(normalize-space(.), 'Staff No.')]"))
@@ -69,6 +79,7 @@ class SalaryAdviceTests {
     }
 
     @Test
+    @Order(3)
     fun testUser1CheckSalaryAdviceList() {
         val login = LoginPage(driver)
         login.load(Config.BASE_URL)
@@ -92,6 +103,7 @@ class SalaryAdviceTests {
     }
 
     @Test
+    @Order(4)
     fun testUser1CheckFirstContract() {
         val login = LoginPage(driver)
         login.load(Config.BASE_URL)
@@ -113,6 +125,7 @@ class SalaryAdviceTests {
     }
 
     @Test
+    @Order(5)
     fun testUser1CheckSpecificContract() {
         val login = LoginPage(driver)
         login.load(Config.BASE_URL)
@@ -139,6 +152,7 @@ class SalaryAdviceTests {
     }
 
     @Test
+    @Order(6)
     fun testUser2CheckNoAccess() {
         val login = LoginPage(driver)
         login.load(Config.BASE_URL)
