@@ -10,12 +10,8 @@ import java.time.Duration
 class LoginPage(private val driver: WebDriver) {
     private val wait = WebDriverWait(driver, Duration.ofSeconds(10))
 
-    fun load(url: String) {
-        driver.get(url)
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("username")))
-    }
-
     fun login(username: String, password: String) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("username")))
         driver.findElement(By.id("username")).sendKeys(username)
         driver.findElement(By.id("password")).sendKeys(password)
         driver.findElement(By.id("kc-login")).click()
